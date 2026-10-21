@@ -5,7 +5,7 @@ const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=u
 let server,settingsFile,settings;
 const safe=x=>String(x||'').trim();
 function valid(c){return c&&safe(c.institution).length>=2&&/^[a-z0-9][a-z0-9-]{4,}$/.test(safe(c.projectId))&&c.projectId!=='daviva-lab'&&/^AIza[\w-]{20,}$/.test(safe(c.apiKey))&&/^\d+:\d+:web:[a-f0-9]+$/i.test(safe(c.appId))&&/^\d+$/.test(safe(c.messagingSenderId))&&safe(c.authDomain)===safe(c.projectId)+'.firebaseapp.com'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(safe(c.adminEmail))&&safe(c.storageBucket).startsWith(safe(c.projectId)+'.');}
-function response(res,status,body,type='text/plain; charset=utf-8'){res.writeHead(status,{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'self' https://www.gstatic.com https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com wss://*.firebaseio.com"});res.end(body)}
+function response(res,status,body,type='text/plain; charset=utf-8'){res.writeHead(status,{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(body)}
 function startServer(){return new Promise((resolve,reject)=>{server=http.createServer((req,res)=>{
 let pathname;try{pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname)}catch{return response(res,400,'Invalid URL')}
 if(req.method==='POST'&&pathname==='/__bilgem/setup'){
