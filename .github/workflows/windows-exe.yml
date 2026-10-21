@@ -1,0 +1,40 @@
+name: BİLGEM Windows EXE
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'electron/**'
+      - 'package.json'
+      - '.github/workflows/windows-exe.yml'
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout BİLGEM
+        uses: actions/checkout@v4
+      - name: Checkout DAVIVA LAB (read only)
+        uses: actions/checkout@v4
+        with:
+          repository: davivabiyokimya-hub/daviva-lab-panel
+          ref: main
+          path: web
+          persist-credentials: false
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Build EXE
+        run: npm run dist:win
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: BILGEM-Windows-EXE
+          path: dist/*.exe
+          if-no-files-found: error
