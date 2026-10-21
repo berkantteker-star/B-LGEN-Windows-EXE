@@ -20,6 +20,13 @@ return response(res,200,'export const firebaseConfig = '+JSON.stringify(config)+
 if(pathname==='/__bilgem/institution')return response(res,200,JSON.stringify({name:settings.institution,logo:settings.logo}), 'application/json');
 const file=path.resolve(root,'.'+pathname);if(file!==root&&!file.startsWith(root+path.sep))return response(res,403,'Forbidden');
 const target=fs.existsSync(file)&&fs.statSync(file).isDirectory()?path.join(file,'index.html'):file;
+if(pathname==='/'||pathname==='/index.html'){
+return fs.readFile(target,'utf8',(err,html)=>{if(err)return response(res,404,'Not found');
+html=html.replace(/DAVIVA LAB/g,'BİLGEM').replace(/Daviva Lab/g,'BİLGEM').replace(/Daviva/g,'BİLGEM');
+const branding='<script>fetch("/__bilgem/institution").then(r=>r.json()).then(c=>{document.title="BİLGEM | "+c.name;const h=document.querySelector("aside h1");if(h)h.textContent="BİLGEM";const sub=document.querySelector("aside .sub");if(sub)sub.textContent=c.name;if(c.logo&&/^https:\\/\\//.test(c.logo)){const img=document.createElement("img");img.src=c.logo;img.alt=c.name;img.style.cssText="max-width:160px;max-height:70px;object-fit:contain;display:block;margin:10px 8px";h?.after(img)}}).catch(()=>{});<\\/script>';
+html=html.replace(/<\\/body>/i,branding+'</body>');
+response(res,200,html,'text/html; charset=utf-8')})}
+
 fs.readFile(target,(err,data)=>err?response(res,404,'Not found'):response(res,200,data,mime[path.extname(target)]||'application/octet-stream'));
 });server.once('error',reject);server.listen(0,'127.0.0.1',()=>resolve(server.address().port))})}
 app.whenReady().then(async()=>{settingsFile=path.join(app.getPath('userData'),'institution.json');try{settings=JSON.parse(fs.readFileSync(settingsFile,'utf8'))}catch{settings=null}const port=await startServer();const win=new BrowserWindow({width:1440,height:900,minWidth:900,minHeight:600,webPreferences:{nodeIntegration:false,contextIsolation:true,sandbox:true}});win.loadURL('http://127.0.0.1:'+port+'/');win.webContents.setWindowOpenHandler(({url})=>{if(/^https:\/\//.test(url))shell.openExternal(url);return {action:'deny'}})}).catch(e=>dialog.showErrorBox('BİLGEM',e.message));
