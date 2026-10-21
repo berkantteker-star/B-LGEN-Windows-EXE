@@ -6,7 +6,7 @@
   "main": "electron/main.cjs",
   "scripts": {
     "start": "electron .",
-    "dist:win": "electron-builder --win nsis portable"
+    "dist:win": "electron-builder --win nsis portable --publish never"
   },
   "devDependencies": {
     "electron": "^33.4.11",
@@ -27,12 +27,17 @@
       "target": [
         "nsis",
         "portable"
-      ],
-      "artifactName": "BILGEM-${version}-${arch}.${ext}"
+      ]
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "BILGEM-Setup-${version}-${arch}.${ext}"
+    },
+    "publish": null,
+    "portable": {
+      "artifactName": "BILGEM-Portable-${version}-${arch}.${ext}"
     }
-  }
+  },
+  "author": "BİLGEM"
 }
