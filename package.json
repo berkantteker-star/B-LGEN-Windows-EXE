@@ -1,6 +1,6 @@
 {
   "name": "bilgem-windows",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "BİLGEM Windows desktop build of DAVIVA LAB",
   "main": "electron/main.cjs",
@@ -37,7 +37,13 @@
     "publish": null,
     "portable": {
       "artifactName": "BILGEM-Portable-${version}-${arch}.${ext}"
-    }
+    },
+    "asarUnpack": [
+      "**/*.node"
+    ]
   },
-  "author": "BİLGEM"
+  "author": "BİLGEM",
+  "dependencies": {
+    "better-sqlite3": "^11.8.1"
+  }
 }
