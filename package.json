@@ -2,7 +2,7 @@
   "name": "bilgem-windows",
   "version": "1.1.0",
   "private": true,
-  "description": "BİLGEM Windows desktop build of DAVIVA LAB",
+  "description": "BİLGEM independent multi-institution laboratory management desktop client",
   "main": "electron/main.cjs",
   "scripts": {
     "start": "electron .",
@@ -20,7 +20,6 @@
     },
     "files": [
       "electron/**/*",
-      "web/**/*",
       "package.json"
     ],
     "win": {
