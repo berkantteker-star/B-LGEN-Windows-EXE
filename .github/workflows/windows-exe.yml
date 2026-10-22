@@ -15,13 +15,6 @@ jobs:
     steps:
       - name: Checkout BİLGEM
         uses: actions/checkout@v4
-      - name: Checkout DAVIVA LAB (read only)
-        uses: actions/checkout@v4
-        with:
-          repository: davivabiyokimya-hub/daviva-lab-panel
-          ref: main
-          path: web
-          persist-credentials: false
       - name: Node.js
         uses: actions/setup-node@v4
         with:
