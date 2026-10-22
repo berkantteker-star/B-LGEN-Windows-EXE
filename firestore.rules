@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Initial BİLGEM deployment: deny all client access until
+    // Firebase Authentication, verified memberships and admin provisioning exist.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
